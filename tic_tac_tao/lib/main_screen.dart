@@ -14,9 +14,9 @@ class _MainScreenState extends State<MainScreen> {
 
   void tapped(int index) {
     setState(() {
-      if (xTurn) {
+      if (xTurn && displaySign[index] == '') {
         displaySign[index] = 'x';
-      } else {
+      } else if (!xTurn && displaySign[index] == '') {
         displaySign[index] = 'o';
       }
 
@@ -66,41 +66,137 @@ class _MainScreenState extends State<MainScreen> {
   void showwinDialog(String winner) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(title: Text('Winner is $winner'));
+        return AlertDialog(
+          actions: [
+            IconButton(
+              onPressed: () {
+                clearBoard();
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.restart_alt_rounded, size: 50),
+            ),
+          ],
+          title: Text('Winner is $winner'),
+        );
       },
     );
+
+    if (winner == 'o') {
+      scoreo += 1;
+    } else {
+      scorex += 1;
+    }
   }
+
+  void clearBoard() {
+    setState(() {
+      for (int i = 0; i < 9; i++) {
+        displaySign[i] = '';
+      }
+    });
+  }
+
+  int scorex = 0;
+  int scoreo = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      body: GridView.builder(
-        itemCount: 9,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-        ),
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              tapped(index);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color.fromARGB(255, 198, 197, 197),
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  displaySign[index],
-                  style: TextStyle(color: Colors.white, fontSize: 45),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                child: Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 15),
+                      Text(
+                        'Score Board',
+                        style: TextStyle(color: Colors.white, fontSize: 30),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                'Player x',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
+                              ),
+                              Text(
+                                scorex.toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'player o',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
+                              ),
+                              Text(
+                                scoreo.toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          );
-        },
+            Expanded(
+              flex: 3,
+              child: GridView.builder(
+                itemCount: 9,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      tapped(index);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 198, 197, 197),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          displaySign[index],
+                          style: TextStyle(color: Colors.white, fontSize: 45),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
       ),
     );
   }
