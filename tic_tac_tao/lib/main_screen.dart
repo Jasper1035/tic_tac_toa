@@ -16,8 +16,10 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       if (xTurn && displaySign[index] == '') {
         displaySign[index] = 'x';
+        filledBox += 1;
       } else if (!xTurn && displaySign[index] == '') {
         displaySign[index] = 'o';
+        filledBox += 1;
       }
 
       xTurn = !xTurn;
@@ -60,6 +62,8 @@ class _MainScreenState extends State<MainScreen> {
         displaySign[2] == displaySign[6] &&
         displaySign[2] != '') {
       showwinDialog(displaySign[6]);
+    } else if (filledBox == 9) {
+      showDrawDialog();
     }
   }
 
@@ -90,14 +94,37 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void showDrawDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          actions: [
+            IconButton(
+              onPressed: () {
+                clearBoard();
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.restart_alt_rounded, size: 50),
+            ),
+          ],
+          title: Text('Match is Draw'),
+        );
+      },
+    );
+  }
+
   void clearBoard() {
     setState(() {
       for (int i = 0; i < 9; i++) {
         displaySign[i] = '';
       }
     });
+    filledBox = 0;
   }
 
+  int filledBox = 0;
   int scorex = 0;
   int scoreo = 0;
 
