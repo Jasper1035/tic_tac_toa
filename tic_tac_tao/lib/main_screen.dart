@@ -129,9 +129,9 @@ class _MainScreenState extends State<MainScreen> {
   int scorex = 0;
   int scoreo = 0;
 
-  static var myNewFont = GoogleFonts.pressStart2p(
-    textStyle: TextStyle(color: Colors.black, letterSpacing: 3),
-  );
+  // static var myNewFont = GoogleFonts.pressStart2p(
+  //   textStyle: TextStyle(color: Colors.black, letterSpacing: 3),
+  // );
   static var myNewFontWhite = GoogleFonts.pressStart2p(
     textStyle: TextStyle(color: Colors.white, letterSpacing: 1, fontSize: 20),
   );
