@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -128,6 +129,13 @@ class _MainScreenState extends State<MainScreen> {
   int scorex = 0;
   int scoreo = 0;
 
+  static var myNewFont = GoogleFonts.pressStart2p(
+    textStyle: TextStyle(color: Colors.black, letterSpacing: 3),
+  );
+  static var myNewFontWhite = GoogleFonts.pressStart2p(
+    textStyle: TextStyle(color: Colors.white, letterSpacing: 1, fontSize: 20),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,38 +159,14 @@ class _MainScreenState extends State<MainScreen> {
                         children: [
                           Column(
                             children: [
-                              Text(
-                                'Player x',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                ),
-                              ),
-                              Text(
-                                scorex.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                ),
-                              ),
+                              Text('Player x', style: myNewFontWhite),
+                              Text(scorex.toString(), style: myNewFontWhite),
                             ],
                           ),
                           Column(
                             children: [
-                              Text(
-                                'player o',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                ),
-                              ),
-                              Text(
-                                scoreo.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                ),
-                              ),
+                              Text('player o', style: myNewFontWhite),
+                              Text(scoreo.toString(), style: myNewFontWhite),
                             ],
                           ),
                         ],
@@ -211,17 +195,25 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                       child: Center(
-                        child: Text(
-                          displaySign[index],
-                          style: TextStyle(color: Colors.white, fontSize: 45),
-                        ),
+                        child: Text(displaySign[index], style: myNewFontWhite),
                       ),
                     ),
                   );
                 },
               ),
             ),
-            Expanded(child: Container()),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text('TIC TAC TOE', style: myNewFontWhite),
+                    // SizedBox(height: 60),
+                    Text('@Created by Jasper.', style: myNewFontWhite),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
